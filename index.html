@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometry2</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="main-menu" class="menu">
+            <button class="lesson-btn" onclick="showMenu(2)">درس دوم</button>
+            <button class="lesson-btn" onclick="showMenu(1)">درس اول</button>
+        </div>
+
+        <div id="menu-1" class="menu submenu" style="display: none;">
+            <button class="lesson-btn" onclick="showCentralAngle()">زاویه مرکزی</button>
+            <button class="lesson-btn" onclick="showInscribedAngle()">زاویه محاطی</button>
+            <button class="lesson-btn" onclick="showTangentAngle()">زاویه ظلی</button>
+            <button class="lesson-btn" onclick="showInternalAngle()">زاویه داخلی</button>
+            <button class="lesson-btn" onclick="showExternalAngle()">زاویه خارجی</button>
+            <button class="lesson-btn" onclick="showDiameterPerpendicularToChord()">قطر عمود بر وتر</button>
+            <button class="lesson-btn" onclick="showDiameterBisectingChord()">قطر منصف وتر</button>
+            <button class="lesson-btn" onclick="showDiameterInequalityProof()">دو وتر نابرابر</button>
+            <button class="lesson-btn" onclick="showParallelChordsProof()">کمان های محصور</button>
+            <button class="lesson-btn" onclick="showSpecialCaseProof()">کمان های محصور(مماس)</button>
+            <button class="back-btn" onclick="showMainMenu()">بازگشت به منو اصلی</button>
+        </div>
+
+        <div id="menu-2" class="menu submenu" style="display: none;">
+            <button class="lesson-btn">AB²=AD.AC</button>
+            <button class="lesson-btn">AM.MC=BM.MD</button>
+            <button class="lesson-btn">AB.AC=AE.AD</button>
+            <button class="back-btn" onclick="showMainMenu()">بازگشت به منو اصلی</button>
+        </div>
+                <div id="proof-section" class="menu" style="display: none;">
+            <canvas id="canvas" width="400" height="400"></canvas>
+            <p id="proof" class="proof-text"></p>
+            <button id="back-to-lesson1-btn" class="back-btn" onclick="goBackToMenu1()">بازگشت به درس اول</button>
+        </div>
+
+    </div>
+
+    <footer>
+        <a href="https://github.com/Amirabbasjadidi/Geometry2">🐼</a>
+    </footer>
+</body>
+</html>
+

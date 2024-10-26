@@ -1,0 +1,170 @@
+@font-face {
+    font-family: 'Estedad';
+    src: url('/Estedad.ttf') format('truetype');
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+    font-family: 'Estedad', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    gap: 20px;
+}
+
+.lesson-btn {
+    background-color: #ff8000;
+    border: none;
+    color: white;
+    padding: 20px;
+    font-size: 1.5em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-family: 'Estedad', sans-serif;
+    margin-top: 5px;
+}
+
+.lesson-btn:hover {
+    background-color: #e67300;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    font-size: 2em;
+    background-color: #000000;
+}
+footer a {
+    text-decoration: none;
+    color: inherit;
+}
+
+footer a:hover {
+    color: inherit;
+}
+
+.lesson-btn:hover {
+    transform: scale(1.1);
+    background-color: #e67300;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.clicked {
+    animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    50% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+    100% { transform: rotate(0deg); }
+}
+
+
+.menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.submenu {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.back-btn {
+    background-color: #555;
+    border: none;
+    color: white;
+    padding: 10px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-family: 'Estedad', sans-serif;
+
+}
+.back-btn:hover {
+    background-color: #444;
+}
+
+#menu-1 > .lesson-btn,
+#menu-2 > .lesson-btn {
+    width: 300px;
+    height: 60px;
+    text-align: center;
+}
+
+#proof-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+canvas {
+    background-color: #000;
+    border: 1px solid #fff;
+}
+
+.proof-text {
+    color: #ff8000;
+    font-size: 1.2em;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#back-to-lesson1-btn {
+    margin-left: 105px;
+}
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #000000;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #e67300;
+  border-radius: 10px;
+  border: 2px solid #000000;
+}
+
+
+body {
+  scrollbar-color: #e67300 #000000;
+  scrollbar-width: thin;
+}
+
+
+
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .lesson-btn {
+        width: auto;
+        font-size: 1.5em;
+        padding: 20px;
+    }
+}
+
