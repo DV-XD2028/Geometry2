@@ -1595,7 +1595,7 @@ function drawLengthRelation() {
             ctx.fillText('O', centerX - 10, centerY - 10);
 
             const proof = document.getElementById('proof2');
-            const text = `اثبات:<br>M1=M2 ⇒ D=AB/2=C,A=DC/2=B<br>⇒ ΔAMD ~ ΔABC<br>⇒ AD/BC = AM/BM = MD/MC<br>⇒ AM × MC = BM × MD`;
+            const text = `اثبات:<br>M1=M2 ⇒ D=AB/2=C,A=DC/2=B<br>⇒ ΔAMD ~ ΔBMC<br>⇒ AD/BC = AM/BM = MD/MC<br>⇒ AM × MC = BM × MD`;
             typeText(proof, text, 50);
         }
     }
