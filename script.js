@@ -1726,7 +1726,7 @@ function lengthRelation3() {
         ctx.fill();
 
         const proof = document.getElementById('proof2');
-        const text = 'اثبات:<br>A = A , C = BE/2 = B<br>⇒ ΔACE ~ ΔABD<br>⇒ CE/BD = AE/AB = AC/AD<br>⇒ AB × AC = AE × AD';
+        const text = 'اثبات:<br>A = A , C = BE/2 = D<br>⇒ ΔACE ~ ΔABD<br>⇒ CE/BD = AE/AB = AC/AD<br>⇒ AB × AC = AE × AD';
         typeText(proof, text, 50);
     }
 
