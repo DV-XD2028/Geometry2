@@ -574,7 +574,7 @@ function drawExternalAngle() {
     let lineProgress = 0;
 
     function drawLines() {
-        ctx.strokeStyle = '#ff8000';
+        ctx.strokeStyle = '#fff';
         ctx.beginPath();
         ctx.moveTo(Cx, Cy);
         ctx.lineTo(Cx + lineProgress * (Ax - Cx), Cy + lineProgress * (Ay - Cy));
@@ -585,7 +585,7 @@ function drawExternalAngle() {
         ctx.lineTo(Bx + lineProgress * (Dx - Bx), By + lineProgress * (Dy - By));
         ctx.stroke();
 
-        ctx.strokeStyle = '#ff8000';
+        ctx.strokeStyle = '#fff';
         ctx.beginPath();
         ctx.moveTo(Ax, Ay);
         ctx.lineTo(Ax + 300 * (Ax - Cx), Ay + 300 * (Ay - Cy));
@@ -1287,3 +1287,452 @@ function drawSpecialCase() {
 
     drawCircle();
 }
+
+function showlengthRelation1() {
+    document.getElementById('menu-2').style.display = 'none';
+    document.getElementById('proof-section2').style.display = 'block';
+    document.getElementById('proof2').innerHTML = '';
+
+    lengthRelation1();
+}
+
+function lengthRelation1() {
+    const canvas = document.getElementById('canvas2');
+    const ctx = canvas.getContext('2d');
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = 100;
+
+    let circleProgress = 0;
+
+    function drawCircle() {
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, circleProgress * 3 * Math.PI);
+        ctx.stroke();
+        circleProgress += 0.02;
+        if (circleProgress <= 1) {
+            requestAnimationFrame(drawCircle);
+        } else {
+            drawTriangleAndTangent();
+        }
+    }
+
+    function drawTriangleAndTangent() {
+        const angleB = Math.PI / 4;
+        const angleC = -Math.PI / 4;
+
+        const Bx = centerX + radius * Math.cos(angleB);
+        const By = centerY - radius * Math.sin(angleB);
+        const Cx = centerX + radius * Math.cos(angleC);
+        const Cy = centerY - radius * Math.sin(angleC);
+
+        const Dx = centerX - radius * Math.cos(angleC) + 70;
+        const Dy = centerY + radius * Math.sin(angleC) - 30;
+
+        const tangentLength = 150;
+        const Ax = Bx + tangentLength * Math.cos(angleB + Math.PI / 2);
+        const Ay = By - tangentLength * Math.sin(angleB + Math.PI / 2);
+
+        let chordProgress = 0;
+
+        function drawChordAB() {
+            ctx.beginPath();
+            ctx.moveTo(Bx, By);
+            ctx.lineTo(Bx + chordProgress * (Ax - Bx), By + chordProgress * (Ay - By));
+            ctx.stroke();
+            chordProgress += 0.02;
+            if (chordProgress <= 1) {
+                requestAnimationFrame(drawChordAB);
+            } else {
+                chordProgress = 0;
+                drawTriangleLines();
+            }
+        }
+
+        function drawTriangleLines() {
+            let lineProgress = 0;
+
+            function drawLineAC() {
+                ctx.beginPath();
+                ctx.moveTo(Ax, Ay);
+                ctx.lineTo(Ax + lineProgress * (Cx - Ax), Ay + lineProgress * (Cy - Ay));
+                ctx.stroke();
+                lineProgress += 0.02;
+                if (lineProgress <= 1) {
+                    requestAnimationFrame(drawLineAC);
+                } else {
+                    lineProgress = 0;
+                    drawLineAD();
+                }
+            }
+
+            function drawLineAD() {
+                ctx.beginPath();
+                ctx.moveTo(Ax, Ay);
+                ctx.lineTo(Dx, Dy);
+                ctx.stroke();
+                drawDashedLines();
+            }
+
+            drawLineAC();
+        }
+
+        function drawDashedLines() {
+            let dashProgress = 0;
+            ctx.setLineDash([5, 5]);
+
+            function drawDashedBC() {
+                ctx.beginPath();
+                ctx.moveTo(Bx, By);
+                ctx.lineTo(Bx + dashProgress * (Cx - Bx), By + dashProgress * (Cy - By));
+                ctx.stroke();
+                dashProgress += 0.02;
+                if (dashProgress <= 1) {
+                    requestAnimationFrame(drawDashedBC);
+                } else {
+                    dashProgress = 0;
+                    drawDashedBD();
+                }
+            }
+
+            function drawDashedBD() {
+                ctx.beginPath();
+                ctx.moveTo(Bx, By);
+                ctx.lineTo(Bx + dashProgress * (Dx - Bx), By + dashProgress * (Dy - By));
+                ctx.stroke();
+                dashProgress += 0.02;
+                if (dashProgress <= 1) {
+                    requestAnimationFrame(drawDashedBD);
+                } else {
+                    ctx.setLineDash([]);
+                    labelPoints(Ax, Ay, Bx, By, Cx, Cy, centerX, centerY, Dx, Dy);
+                }
+            }
+
+            drawDashedBC();
+        }
+
+        drawChordAB();
+    }
+
+    function labelPoints(Ax, Ay, Bx, By, Cx, Cy, Ox, Oy, Dx, Dy) {
+        ctx.fillStyle = '#ff8000';
+        ctx.font = '20px Estedad';
+        ctx.fillText('A', Ax + 10, Ay);
+        ctx.fillText('B', Bx + 10, By - 10);
+        ctx.fillText('C', Cx - 20, Cy + 10);
+        ctx.fillText('D', Dx + 10, Dy + 10);
+        ctx.fillText('O', Ox - 10, Oy - 10);
+
+        ctx.beginPath();
+        ctx.arc(Ox, Oy, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        const proof = document.getElementById('proof2');
+        const text = 'اثبات:<br> A = A, B = BD / 2 = C<br>⇒ ΔABD ~ ΔABC<br>⇒ BD/BC = AD / AB = AB / AC<br>⇒ AB² = AD × AC';
+        typeText(proof, text, 50);
+    }
+
+    drawCircle();
+}
+
+function goBackToMenu2() {
+    document.getElementById('proof-section2').style.display = 'none';
+    document.getElementById('menu-2').style.display = 'flex';
+}
+
+function lengthRelation2() {
+    document.getElementById('menu-2').style.display = 'none';
+    document.getElementById('proof-section2').style.display = 'block';
+    document.getElementById('proof2').innerHTML = '';
+
+    drawLengthRelation();
+}
+
+function drawLengthRelation() {
+    const canvas = document.getElementById('canvas2');
+    const ctx = canvas.getContext('2d');
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = 100;
+
+    const angleA = Math.random() * Math.PI * 2;
+    const angleC = angleA + Math.PI;
+    const minDistanceFromCenter = Math.PI / 4;
+
+    let angleD = angleA + minDistanceFromCenter + (Math.random() * Math.PI / 3);
+    if (angleD >= 2 * Math.PI) angleD -= 2 * Math.PI;
+
+    let angleB = angleC + minDistanceFromCenter + (Math.random() * Math.PI / 3);
+    if (angleB >= 2 * Math.PI) angleB -= 2 * Math.PI;
+
+    const Ax = centerX + radius * Math.cos(angleA);
+    const Ay = centerY + radius * Math.sin(angleA);
+    const Dx = centerX + radius * Math.cos(angleD);
+    const Dy = centerY + radius * Math.sin(angleD);
+    const Cx = centerX + radius * Math.cos(angleC);
+    const Cy = centerY + radius * Math.sin(angleC);
+    const Bx = centerX + radius * Math.cos(angleB);
+    const By = centerY + radius * Math.sin(angleB);
+
+    let circleProgress = 0;
+
+    function drawCircle() {
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, circleProgress * 3 * Math.PI);
+        ctx.stroke();
+        circleProgress += 0.01;
+        if (circleProgress <= 1) {
+            requestAnimationFrame(drawCircle);
+        } else {
+            drawLineAC();
+        }
+    }
+
+    let lineACProgress = 0;
+
+    function drawLineAC() {
+        ctx.beginPath();
+        ctx.moveTo(Ax, Ay);
+        ctx.lineTo(Ax + lineACProgress * (Cx - Ax), Ay + lineACProgress * (Cy - Ay));
+        ctx.stroke();
+        lineACProgress += 0.02;
+        if (lineACProgress <= 1) {
+            requestAnimationFrame(drawLineAC);
+        } else {
+            drawLineBD();
+        }
+    }
+
+    let lineBDProgress = 0;
+
+    function drawLineBD() {
+        ctx.beginPath();
+        ctx.moveTo(Dx, Dy);
+        ctx.lineTo(Dx + lineBDProgress * (Bx - Dx), Dy + lineBDProgress * (By - Dy));
+        ctx.stroke();
+        lineBDProgress += 0.02;
+        if (lineBDProgress <= 1) {
+            requestAnimationFrame(drawLineBD);
+        } else {
+            drawDashedLines();
+        }
+    }
+
+    function drawDashedLines() {
+        let dashProgress = 0;
+        ctx.setLineDash([5, 5]);
+
+        function drawDashedAD() {
+            ctx.beginPath();
+            ctx.moveTo(Ax, Ay);
+            ctx.lineTo(Ax + dashProgress * (Dx - Ax), Ay + dashProgress * (Dy - Ay));
+            ctx.stroke();
+            dashProgress += 0.02;
+            if (dashProgress <= 1) {
+                requestAnimationFrame(drawDashedAD);
+            } else {
+                dashProgress = 0;
+                drawDashedCB();
+            }
+        }
+
+        function drawDashedCB() {
+            ctx.beginPath();
+            ctx.moveTo(Bx, By);
+            ctx.lineTo(Bx + dashProgress * (Cx - Bx), By + dashProgress * (Cy - By));
+            ctx.stroke();
+            dashProgress += 0.02;
+            if (dashProgress <= 1) {
+                requestAnimationFrame(drawDashedCB);
+            } else {
+                ctx.setLineDash([]);
+                drawIntersectionAndLabel();
+            }
+        }
+
+        drawDashedAD();
+    }
+
+    function drawIntersectionAndLabel() {
+        const denominator = (Ax - Cx) * (Dy - By) - (Ay - Cy) * (Dx - Bx);
+        if (denominator !== 0) {
+            const t = ((Ax - Bx) * (Dy - By) - (Ay - By) * (Dx - Bx)) / denominator;
+            const intersectionX = Ax + t * (Cx - Ax);
+            const intersectionY = Ay + t * (Cy - Ay);
+
+            ctx.beginPath();
+            ctx.arc(intersectionX, intersectionY, 5, 0, Math.PI * 2);
+            ctx.fillStyle = '#ff8000';
+            ctx.fill();
+            ctx.fillText('M', intersectionX + 10, intersectionY + 10);
+
+            ctx.fillStyle = '#ff8000';
+            ctx.font = '20px Estedad';
+            ctx.fillText('A', Ax + 10, Ay + 10);
+            ctx.fillText('D', Dx + 10, Dy + 10);
+            ctx.fillText('C', Cx + 10, Cy + 10);
+            ctx.fillText('B', Bx + 10, By + 10);
+
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
+            ctx.fillStyle = '#ff8000';
+            ctx.fill();
+            ctx.fillText('O', centerX - 10, centerY - 10);
+
+            const proof = document.getElementById('proof2');
+            const text = `اثبات:<br>M1=M2 ⇒ D=AB/2=C,A=DC/2=B<br>⇒ ΔAMD ~ ΔABC<br>⇒ AD/BC = AM/BM = MD/MC<br>⇒ AM × MC = BM × MD`;
+            typeText(proof, text, 50);
+        }
+    }
+
+    drawCircle();
+}
+
+function showlengthRelation3() {
+    document.getElementById('menu-2').style.display = 'none';
+    document.getElementById('proof-section2').style.display = 'block';
+    document.getElementById('proof2').innerHTML = '';
+
+    lengthRelation3();
+}
+
+function lengthRelation3() {
+    const canvas = document.getElementById('canvas2');
+    const ctx = canvas.getContext('2d');
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = 100;
+
+    let circleProgress = 0;
+
+    function drawCircle() {
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, circleProgress * 3 * Math.PI);
+        ctx.stroke();
+        circleProgress += 0.02;
+        if (circleProgress <= 1) {
+            requestAnimationFrame(drawCircle);
+        } else {
+            labelAndAnimatePoints(centerX, centerY);
+        }
+    }
+
+    function labelAndAnimatePoints(Ox, Oy) {
+        const Ax = Ox + radius * 1.5;
+        const Ay = Oy - radius * 0.5;
+
+        const dx = Ax - Ox;
+        const dy = Ay - Oy;
+        const distanceOA = Math.sqrt(dx * dx + dy * dy);
+        const scale = radius / distanceOA;
+
+        const Bx = Ox + dx * scale;
+        const By = Oy + dy * scale;
+
+        const Cx = Ox - dx * scale;
+        const Cy = Oy - dy * scale;
+
+        const angleOffset = (Math.PI / 180) * 40;
+        const Ex = Ox + (dx * Math.cos(angleOffset) - dy * Math.sin(angleOffset)) * scale + 5;
+        const Ey = Oy + (dx * Math.sin(angleOffset) + dy * Math.cos(angleOffset)) * scale - 40;
+        const Dx = Ox - (dx * Math.cos(angleOffset) - dy * Math.sin(angleOffset)) * scale + 60;
+        const Dy = Oy - (dx * Math.sin(angleOffset) + dy * Math.cos(angleOffset)) * scale + 130;
+
+        animateLine(Ax, Ay, Bx, By, () => {
+            animateLine(Bx, By, Cx, Cy, () => {
+                animateLine(Ax, Ay, Ex, Ey, () => {
+                    animateLine(Ex, Ey, Dx, Dy, () => {
+                        animateDashedLine(Cx, Cy, Ex, Ey, () => {
+                            animateDashedLine(Bx, By, Dx, Dy, () => {
+                                labelPoints(Ox, Oy, Ax, Ay, Bx, By, Cx, Cy, Ex, Ey, Dx, Dy);
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    }
+
+    function animateLine(x1, y1, x2, y2, callback) {
+        let progress = 0;
+        function draw() {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x1 + progress * (x2 - x1), y1 + progress * (y2 - y1));
+            ctx.stroke();
+            progress += 0.02;
+            if (progress <= 1) {
+                requestAnimationFrame(draw);
+            } else if (callback) {
+                callback();
+            }
+        }
+        draw();
+    }
+
+    function animateDashedLine(x1, y1, x2, y2, callback) {
+        let dashProgress = 0;
+        ctx.setLineDash([5, 5]);
+        function draw() {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x1 + dashProgress * (x2 - x1), y1 + dashProgress * (y2 - y1));
+            ctx.stroke();
+            dashProgress += 0.02;
+            if (dashProgress <= 1) {
+                requestAnimationFrame(draw);
+            } else {
+                ctx.setLineDash([]);
+                if (callback) callback();
+            }
+        }
+        draw();
+    }
+
+    function labelPoints(Ox, Oy, Ax, Ay, Bx, By, Cx, Cy, Ex, Ey, Dx, Dy) {
+        ctx.fillStyle = '#ff8000';
+        ctx.font = '20px Estedad';
+        ctx.fillText('O', Ox - 10, Oy - 10);
+        ctx.fillText('A', Ax + 10, Ay);
+        ctx.fillText('B', Bx + 10, By);
+        ctx.fillText('C', Cx + 10, Cy);
+        ctx.fillText('E', Ex + 10, Ey);
+        ctx.fillText('D', Dx + 10, Dy);
+
+        ctx.beginPath();
+        ctx.arc(Ox, Oy, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        const proof = document.getElementById('proof2');
+        const text = 'اثبات:<br>A = A , C = BE/2 = B<br>⇒ ΔACE ~ ΔABD<br>⇒ CE/BD = AE/AB = AC/AD<br>⇒ AB × AC = AE × AD';
+        typeText(proof, text, 50);
+    }
+
+    drawCircle();
+}
+
+
+
+
