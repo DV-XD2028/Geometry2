@@ -130,7 +130,7 @@ function drawCentralAngle() {
         ctx.fillStyle = '#ff8000';
         ctx.fill();
         const proof = document.getElementById('proof');
-        const text = '∠O = AB';
+        const text = '∠O = ∿AB';
         typeText(proof, text, 50);
     }
 
@@ -238,7 +238,7 @@ function drawInscribedAngle() {
         ctx.fillText('O', centerX - 10, centerY - 10);
 
         const proof = document.getElementById('proof');
-        const text = '∠M = AB/2';
+        const text = '∠M = ∿AB/2';
         typeText(proof, text, 50);
     }
 
@@ -348,7 +348,7 @@ function drawTangentAngle() {
         ctx.fillText('O', centerX - 10, centerY - 10);
 
         const proof = document.getElementById('proof');
-        const text = '∠N = AN/2';
+        const text = '∠N = ∿AN/2';
         typeText(proof, text, 50);
     }
 
@@ -475,7 +475,7 @@ function drawInternalAngle() {
             ctx.fillText('O', centerX - 10, centerY - 10);
 
             const proof = document.getElementById('proof');
-            const text = `∠P1 = (AB + CD) / 2<br>∠P2 = (BC + AD) / 2`;
+            const text = `∠P1 = (∿AB + ∿CD) / 2<br>∠P2 = (∿BC + ∿AD) / 2`;
             typeText(proof, text, 50);
         }
     }
@@ -505,57 +505,30 @@ function drawExternalAngle() {
     const centerY = canvas.height / 2;
     const radius = 100;
 
-    let Ax, Ay, Bx, By, Cx, Cy, Dx, Dy, intersection;
-    let attempts = 0;
+    const angleA = Math.PI / 4;
+    const angleB = (3 * Math.PI) / 4;
+    const externalAngle = Math.PI / 3;
 
-    do {
-        let angleA = Math.random() * Math.PI;
-        let angleB;
-        do {
-            angleB = angleA + Math.random() * (Math.PI / 5);
-        } while (Math.abs(angleB - angleA) < Math.PI / 10);
+    const Ax = centerX + radius * Math.cos(angleA);
+    const Ay = centerY + radius * Math.sin(angleA);
+    const Bx = centerX + radius * Math.cos(angleB);
+    const By = centerY + radius * Math.sin(angleB);
 
-        Ax = centerX + radius * Math.cos(angleA);
-        Ay = centerY + radius * Math.sin(angleA);
-        Bx = centerX + radius * Math.cos(angleB);
-        By = centerY + radius * Math.sin(angleB);
+    const angleC = angleA + Math.PI + externalAngle;
+    const angleD = angleB + Math.PI - externalAngle;
 
-        let externalAngle = Math.random() * (Math.PI / 2);
+    const Cx = centerX + radius * Math.cos(angleC);
+    const Cy = centerY + radius * Math.sin(angleC);
+    const Dx = centerX + radius * Math.cos(angleD);
+    const Dy = centerY + radius * Math.sin(angleD);
 
-        let innerAttempts = 0;
-        do {
-            if (innerAttempts > 10) {
-                break;
-            }
+    const extendedLength = 300;
+    const Gx = Cx + extendedLength * (Cx - Ax);
+    const Gy = Cy + extendedLength * (Cy - Ay);
+    const Hx = Dx + extendedLength * (Dx - Bx);
+    const Hy = Dy + extendedLength * (Dy - By);
+    const intersection = getLineIntersection(Cx, Cy, Gx, Gy, Dx, Dy, Hx, Hy);
 
-            const angleC = angleA + Math.PI + externalAngle;
-            const angleD = angleB + Math.PI - externalAngle;
-
-            Cx = centerX + radius * Math.cos(angleC);
-            Cy = centerY + radius * Math.sin(angleC);
-            Dx = centerX + radius * Math.cos(angleD);
-            Dy = centerY + radius * Math.sin(angleD);
-
-            const extendedLength = 300;
-            const Gx = Ax + extendedLength * (Ax - Cx);
-            const Gy = Ay + extendedLength * (Ay - Cy);
-            const Hx = Bx + extendedLength * (Bx - Dx);
-            const Hy = By + extendedLength * (By - Dy);
-
-            intersection = getLineIntersection(Ax, Ay, Gx, Gy, Bx, By, Hx, Hy);
-            innerAttempts++;
-        } while (intersection && Math.hypot(intersection.x - centerX, intersection.y - centerY) < radius);
-
-        if (intersection && Math.hypot(intersection.x - centerX, intersection.y - centerY) >= radius) {
-            break;
-        }
-
-        attempts++;
-        if (attempts > 30) {
-            console.error('Unable to find valid points after many attempts.');
-            return;
-        }
-    } while (true);
 
     let circleProgress = 0;
 
@@ -581,19 +554,19 @@ function drawExternalAngle() {
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.moveTo(Bx, By);
-        ctx.lineTo(Bx + lineProgress * (Dx - Bx), By + lineProgress * (Dy - By));
+        ctx.moveTo(Dx, Dy);
+        ctx.lineTo(Dx + lineProgress * (Bx - Dx), Dy + lineProgress * (By - Dy));
         ctx.stroke();
 
         ctx.strokeStyle = '#fff';
         ctx.beginPath();
-        ctx.moveTo(Ax, Ay);
-        ctx.lineTo(Ax + 300 * (Ax - Cx), Ay + 300 * (Ay - Cy));
+        ctx.moveTo(Cx, Cy);
+        ctx.lineTo(Gx, Gy);
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.moveTo(Bx, By);
-        ctx.lineTo(Bx + 300 * (Bx - Dx), By + 300 * (By - Dy));
+        ctx.moveTo(Dx, Dy);
+        ctx.lineTo(Hx, Hy);
         ctx.stroke();
 
         lineProgress += 0.02;
@@ -625,7 +598,7 @@ function drawExternalAngle() {
         ctx.fillText('F', intersection.x + 10, intersection.y + 10);
 
         const proof = document.getElementById('proof');
-        const text = '∠F = (CD-AB)/2';
+        const text = '∠F = (∿AB - ∿CD)/2';
         typeText(proof, text, 50);
     }
 
@@ -757,7 +730,7 @@ function drawDiameterPerpendicularToChord() {
         ctx.fillText('O', centerX - 10, centerY - 10);
 
         const proof = document.getElementById('proof');
-        const text = 'فرض: H1 = H2<br>حکم: AH = BH<br>اثبات: OA = OB = r، OH = OH ⇒ ΔOAH ≅ ΔOBH<br>⇒ AH = BH.<br>از طرفی O1 = O2 ⇒ AC = BC.';
+        const text = 'فرض: H1 = H2<br>حکم: AH = BH<br>اثبات: OA = OB = r، OH = OH ⇒ ΔOAH ≅ ΔOBH<br>⇒ AH = BH.<br>از طرفی O1 = O2 ⇒ ∿AC = ∿BC.';
         typeText(proof, text, 50);
     }
 
@@ -881,7 +854,7 @@ function drawDiameterBisectingChord() {
         ctx.fillText('O', centerX - 10, centerY - 10);
 
         const proof = document.getElementById('proof');
-        const text = 'فرض: AH = BH<br>حکم: H1 = H2 = 90<br>اثبات: OA = OB = r، AH = BH، OH = OH<br>⇒ ΔOAH ≅ ΔOBH ⇒ H1 = H2<br>از طرفی H1 + H2 = 180 ⇒ H1 = H2 = 90.<br>از طرفی O1 = O2 ⇒ AC = BC.';
+        const text = 'فرض: AH = BH<br>حکم: H1 = H2 = 90<br>اثبات: OA = OB = r، AH = BH، OH = OH<br>⇒ ΔOAH ≅ ΔOBH ⇒ H1 = H2<br>از طرفی H1 + H2 = 180 ⇒ H1 = H2 = 90.<br>از طرفی O1 = O2 ⇒ ∿AC = ∿BC.';
         typeText(proof, text, 50);
     }
 
@@ -1008,7 +981,7 @@ function drawUnequalChordsProof() {
         const text = `
             فرض: AB > CD<br>
             حکم: OH < OH'<br>
-            AB > CD ⇒ AB/2 > CD/2 ⇒ AH > CH'<br>
+            AB > CD ⇒ ∿AB/2 > ∿CD/2 ⇒ AH > CH'<br>
             ⇒ AH² > CH'² ⇒ r² - OH² > r² - OH'²<br>
             ⇒ -OH² > -OH'² ⇒ OH² < OH'²<br>
             ⇒ OH < OH'.<br>
@@ -1138,7 +1111,7 @@ function drawParallelChords() {
             ctx.fillText('O', centerX - 10, centerY - 10);
 
             const proof = document.getElementById('proof');
-            const text = 'فرض: CD || AB<br>حکم: AC = BD<br>خط مورب را رسم میکنیم<br>طبق قضیه موازی مورب ⇒ A = D<br>A و D محاطی اند ⇒ BD/2 = AC/2<br>⇒ BD = AC';
+            const text = 'فرض: CD || AB<br>حکم: ∿AC = ∿BD<br>خط مورب را رسم میکنیم<br>طبق قضیه موازی مورب ⇒ A = D<br>A و D محاطی اند ⇒ ∿BD/2 = ∿AC/2<br>⇒ ∿BD = ∿AC';
             typeText(proof, text, 50);
         }
 
@@ -1270,7 +1243,7 @@ function drawSpecialCase() {
             labelCenter();
 
             const proof = document.getElementById('proof');
-            const text = 'فرض: d || AB<br>حکم: AC = BC<br>خط مورب را رسم میکنیم<br>طبق قضیه موازی مورب ⇒ A = C<br>A و C محاطی اند ⇒ BC/2 = AC/2<br>⇒ BC = AC';
+            const text = 'فرض: d || AB<br>حکم: ∿AC = ∿BC<br>خط مورب را رسم میکنیم<br>طبق قضیه موازی مورب ⇒ A = C<br>A و C محاطی اند ⇒ ∿BC/2 = ∿AC/2<br>⇒ ∿BC = ∿AC';
             typeText(proof, text, 50);
         }
 
@@ -1436,7 +1409,7 @@ function lengthRelation1() {
         ctx.fill();
 
         const proof = document.getElementById('proof2');
-        const text = 'اثبات:<br> A = A, B = BD / 2 = C<br>⇒ ΔABD ~ ΔABC<br>⇒ BD/BC = AD / AB = AB / AC<br>⇒ AB² = AD × AC';
+        const text = 'اثبات:<br> A = A, B = BD / 2 = C<br>⇒ ΔABD ∼ ΔABC<br>⇒ BD/BC = AD / AB = AB / AC<br>⇒ AB² = AD × AC';
         typeText(proof, text, 50);
     }
 
@@ -1595,7 +1568,7 @@ function drawLengthRelation() {
             ctx.fillText('O', centerX - 10, centerY - 10);
 
             const proof = document.getElementById('proof2');
-            const text = `اثبات:<br>M1=M2 ⇒ D=AB/2=C,A=DC/2=B<br>⇒ ΔAMD ~ ΔBMC<br>⇒ AD/BC = AM/BM = MD/MC<br>⇒ AM × MC = BM × MD`;
+            const text = `اثبات:<br>M1=M2 ⇒ D=AB/2=C,A=DC/2=B<br>⇒ ΔAMD ∼ ΔABC<br>⇒ AD/BC = AM/BM = MD/MC<br>⇒ AM × MC = BM × MD`;
             typeText(proof, text, 50);
         }
     }
@@ -1726,7 +1699,7 @@ function lengthRelation3() {
         ctx.fill();
 
         const proof = document.getElementById('proof2');
-        const text = 'اثبات:<br>A = A , C = BE/2 = D<br>⇒ ΔACE ~ ΔABD<br>⇒ CE/BD = AE/AB = AC/AD<br>⇒ AB × AC = AE × AD';
+        const text = 'اثبات:<br>A = A , C = BE/2 = B<br>⇒ ΔACE ∼ ΔABD<br>⇒ CE/BD = AE/AB = AC/AD<br>⇒ AB × AC = AE × AD';
         typeText(proof, text, 50);
     }
 
