@@ -1409,7 +1409,7 @@ function lengthRelation1() {
         ctx.fill();
 
         const proof = document.getElementById('proof2');
-        const text = 'اثبات:<br> A = A, B = BD / 2 = C<br>⇒ ΔABD ∼ ΔABC<br>⇒ BD/BC = AD / AB = AB / AC<br>⇒ AB² = AD × AC';
+        const text = 'اثبات:<br> A = A, B = ∿BD / 2 = C<br>⇒ ΔABD ∼ ΔABC<br>⇒ BD/BC = AD / AB = AB / AC<br>⇒ AB² = AD × AC';
         typeText(proof, text, 50);
     }
 
@@ -1568,7 +1568,7 @@ function drawLengthRelation() {
             ctx.fillText('O', centerX - 10, centerY - 10);
 
             const proof = document.getElementById('proof2');
-            const text = `اثبات:<br>M1=M2 ⇒ D=AB/2=C,A=DC/2=B<br>⇒ ΔAMD ∼ ΔABC<br>⇒ AD/BC = AM/BM = MD/MC<br>⇒ AM × MC = BM × MD`;
+            const text = `اثبات:<br>M1=M2 ⇒ D=∿AB/2=C,A=∿DC/2=B<br>⇒ ΔAMD ∼ ΔABC<br>⇒ AD/BC = AM/BM = MD/MC<br>⇒ AM × MC = BM × MD`;
             typeText(proof, text, 50);
         }
     }
@@ -1699,7 +1699,7 @@ function lengthRelation3() {
         ctx.fill();
 
         const proof = document.getElementById('proof2');
-        const text = 'اثبات:<br>A = A , C = BE/2 = B<br>⇒ ΔACE ∼ ΔABD<br>⇒ CE/BD = AE/AB = AC/AD<br>⇒ AB × AC = AE × AD';
+        const text = 'اثبات:<br>A = A , C = ∿BE/2 = B<br>⇒ ΔACE ∼ ΔABD<br>⇒ CE/BD = AE/AB = AC/AD<br>⇒ AB × AC = AE × AD';
         typeText(proof, text, 50);
     }
 
