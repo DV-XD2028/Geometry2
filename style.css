@@ -23,6 +23,18 @@ body {
     gap: 20px;
 }
 
+.title-container {
+    width: 100%;
+    text-align: center;
+}
+
+#main-menu h2 {
+    color: #FFD700;
+    margin: 0;
+    font-size: 30px;
+}
+
+
 .lesson-btn {
     background-color: #ff8000;
     border: none;

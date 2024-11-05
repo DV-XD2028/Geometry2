@@ -1115,7 +1115,7 @@ function drawParallelChords() {
             ctx.fillText('O', centerX - 10, centerY - 10);
 
             const proof = document.getElementById('proof');
-            const text = 'فرض: CD || AB<br>حکم: ∿AC = ∿BD<br>خط مورب را رسم میکنیم<br>طبق قضیه موازی مورب ⇒ A = D<br>A و D محاطی اند ⇒ ∿BD/2 = ∿AC/2<br>⇒ ∿BD = ∿AC';
+            const text = 'فرض: CD ‖ AB<br>حکم: ∿AC = ∿BD<br>خط مورب را رسم میکنیم<br>طبق قضیه موازی مورب ⇒ A = D<br>A و D محاطی اند ⇒ ∿BD/2 = ∿AC/2<br>⇒ ∿BD = ∿AC';
             typeText(proof, text, 50);
         }
 
@@ -1247,7 +1247,7 @@ function drawSpecialCase() {
             labelCenter();
 
             const proof = document.getElementById('proof');
-            const text = 'فرض: d || AB<br>حکم: ∿AC = ∿BC<br>خط مورب را رسم میکنیم<br>طبق قضیه موازی مورب ⇒ A = C<br>A و C محاطی اند ⇒ ∿BC/2 = ∿AC/2<br>⇒ ∿BC = ∿AC';
+            const text = 'فرض: d ‖ AB<br>حکم: ∿AC = ∿BC<br>خط مورب را رسم میکنیم<br>طبق قضیه موازی مورب ⇒ A = C<br>A و C محاطی اند ⇒ ∿BC/2 = ∿AC/2<br>⇒ ∿BC = ∿AC';
             typeText(proof, text, 50);
         }
 
@@ -1812,7 +1812,7 @@ function drawTwodisjointcircles() {
         function drawTangent() {
             if (tangentIndex >= tangents.length) {
                 const proof = document.getElementById('proof2');
-                const text = '<br>OO\' > r + r\'<br>دو مماس مشترک خارجی<br>دو مماس مشترک داخلی';
+                const text = '<br>OO′ > r + r′<br>دو مماس مشترک خارجی<br>دو مماس مشترک داخلی';
                 typeText(proof, text, 50);
                 return;
             }
@@ -1946,7 +1946,7 @@ function drawTwoexternallytangentcircles() {
         function drawTangent() {
             if (tangentIndex >= tangents.length) {
                 const proof = document.getElementById('proof2');
-                const text = '<br>OO\' = r + r\'<br>دو مماس مشترک خارجی<br>یک مماس مشترک داخلی';
+                const text = '<br>OO′ = r + r′<br>دو مماس مشترک خارجی<br>یک مماس مشترک داخلی';
                 typeText(proof, text, 50);
                 return;
             }
@@ -2079,7 +2079,7 @@ function drawTwointersectingcircles() {
         function drawTangent() {
             if (tangentIndex >= tangents.length) {
                 const proof = document.getElementById('proof2');
-                const text = '<br>r-r\' < OO\' < r + r\'<br>دو مماس مشترک خارجی<br>بدون مماس مشترک داخلی';
+                const text = '<br>r-r′ < OO′ < r + r′<br>دو مماس مشترک خارجی<br>بدون مماس مشترک داخلی';
                 typeText(proof, text, 50);
                 return;
             }
@@ -2211,7 +2211,7 @@ function drawTwointernallytangentcircles() {
         function drawTangent() {
             if (tangentIndex >= tangents.length) {
                 const proof = document.getElementById('proof2');
-                const text = '<br>OO\' = r - r\'<br>یک مماس مشترک خارجی<br>بدون مماس مشترک داخلی';
+                const text = '<br>OO′ = r - r′<br>یک مماس مشترک خارجی<br>بدون مماس مشترک داخلی';
                 typeText(proof, text, 50);
                 return;
             }
@@ -2332,9 +2332,287 @@ function drawTwoconcentriccircles() {
 
 
         const proof = document.getElementById('proof2');
-        const text = '<br>OO\' = 0 <br>بدون مماس مشترک';
+        const text = '<br>OO′ = 0 <br>بدون مماس مشترک';
         typeText(proof, text, 50);
     }
+
+    drawCircle1();
+}
+
+function showLengthofexternalcommontangent() {
+    document.getElementById('menu-2').style.display = 'none';
+    document.getElementById('proof-section2').style.display = 'block';
+    document.getElementById('proof2').innerHTML = '';
+
+    drawLengthofexternalcommontangent();
+}
+
+function drawLengthofexternalcommontangent() {
+    const canvas = document.getElementById('canvas2');
+    const ctx = canvas.getContext('2d');
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+
+    const centerX1 = canvas.width / 3;
+    const centerY1 = canvas.height / 2;
+    const radius1 = 80;
+
+    const centerX2 = (2 * canvas.width) / 3 + 50;
+    const centerY2 = canvas.height / 2;
+    const radius2 = 50;
+
+    let circleProgress = 0;
+
+    function drawCircle1() {
+        ctx.beginPath();
+        ctx.arc(centerX1, centerY1, radius1, 0, circleProgress * Math.PI * 2);
+        ctx.stroke();
+        if (circleProgress < 1) {
+            circleProgress += 0.02;
+            requestAnimationFrame(drawCircle1);
+        } else {
+            circleProgress = 0;
+            drawCircle2();
+        }
+    }
+
+    function drawCircle2() {
+        ctx.beginPath();
+        ctx.arc(centerX2, centerY2, radius2, 0, circleProgress * Math.PI * 2);
+        ctx.stroke();
+        if (circleProgress < 1) {
+            circleProgress += 0.02;
+            requestAnimationFrame(drawCircle2);
+        } else {
+            drawDashedLine(centerX1, centerY1, centerX2, centerY2, labelPoints);
+        }
+    }
+
+    function drawDashedLine(x1, y1, x2, y2, callback) {
+        let dashProgress = 0;
+        ctx.setLineDash([]);
+        function draw() {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x1 + dashProgress * (x2 - x1), y1 + dashProgress * (y2 - y1));
+            ctx.stroke();
+            dashProgress += 0.02;
+            if (dashProgress <= 1) {
+                requestAnimationFrame(draw);
+            } else {
+                ctx.setLineDash([]);
+                if (callback) callback();
+            }
+        }
+        draw();
+    }
+
+    function labelPoints() {
+        ctx.fillStyle = '#ff8000';
+        ctx.font = '20px Estedad';
+        ctx.fillText('O', centerX1 - 10, centerY1 + 25);
+        ctx.fillText("O'", centerX2 - 10, centerY2 + 25);
+        ctx.fillText("T", centerX1 - radius1 + 90, centerY1 - radius1 - 5);
+        ctx.fillText("T'", centerX2 + radius2 - 50, centerY2 - radius2 - 5);
+        ctx.fillText("A", centerX1 - 10, centerY1 - 30);
+
+        ctx.beginPath();
+        ctx.arc(centerX1, centerY1, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(centerX2, centerY2, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        animateCommonTangents();
+    }
+
+function animateCommonTangents() {
+    const tangents = [
+        { x1: centerX1 - radius1 + 90, y1: centerY1 - radius1, x2: centerX2 + radius2 - 40, y2: centerY2 - radius2, color: '#ff8000', dashed: false },
+        { x1: centerX1, y1: centerY1, x2: centerX1 - radius1 + 90, y2: centerY1 - radius1, color: '#fff', dashed: false },
+        { x1: centerX2, y1: centerY2, x2: centerX2 + radius2 - 45, y2: centerY2 - radius2, color: '#fff', dashed: false },
+        { x1: centerX2, y1: centerY2, x2: centerX1 , y2: centerY1 - 30, color: '#ff8000', dashed: true },
+    ];
+
+    let tangentIndex = 0;
+
+    function drawTangent() {
+        if (tangentIndex >= tangents.length) {
+            const proof = document.getElementById('proof2');
+            const text = 'AT ⊥ TT′ , O′T′ ⊥ TT′ ⇒ AT ‖ O′T′<br>⇒ TT′O′A متوازی الاضلاع , T = T′ = 90<br>⇒ TT′O′A مستطیل ⇒ TT′ = O′A و AT = O′T′<br>⇒ OO′² = OA² + AO′ ⇒ d² = (r-r′)² + TT′²<br>⇒ TT′ = √d²-(r-r′)² ';
+            typeText(proof, text, 50);
+            return;
+        }
+
+        const { x1, y1, x2, y2, color, dashed } = tangents[tangentIndex];
+        let progress = 0;
+
+        function animateLine() {
+            ctx.strokeStyle = color;
+            ctx.setLineDash(dashed ? [5, 5] : []);
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x1 + progress * (x2 - x1), y1 + progress * (y2 - y1));
+            ctx.stroke();
+
+            progress += 0.02;
+            if (progress <= 1) {
+                requestAnimationFrame(animateLine);
+            } else {
+                tangentIndex++;
+                drawTangent();
+            }
+        }
+
+        animateLine();
+    }
+
+    drawTangent();
+}
+
+    drawCircle1();
+}
+
+function showLengthofthecommoninternaltangent() {
+    document.getElementById('menu-2').style.display = 'none';
+    document.getElementById('proof-section2').style.display = 'block';
+    document.getElementById('proof2').innerHTML = '';
+
+    drawLengthofthecommoninternaltangent();
+}
+
+function drawLengthofthecommoninternaltangent() {
+    const canvas = document.getElementById('canvas2');
+    const ctx = canvas.getContext('2d');
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+
+    const centerX1 = canvas.width / 3;
+    const centerY1 = canvas.height / 2;
+    const radius1 = 80;
+
+    const centerX2 = (2 * canvas.width) / 3 + 50;
+    const centerY2 = canvas.height / 2;
+    const radius2 = 50;
+
+    let circleProgress = 0;
+
+    function drawCircle1() {
+        ctx.beginPath();
+        ctx.arc(centerX1, centerY1, radius1, 0, circleProgress * Math.PI * 2);
+        ctx.stroke();
+        if (circleProgress < 1) {
+            circleProgress += 0.02;
+            requestAnimationFrame(drawCircle1);
+        } else {
+            circleProgress = 0;
+            drawCircle2();
+        }
+    }
+
+    function drawCircle2() {
+        ctx.beginPath();
+        ctx.arc(centerX2, centerY2, radius2, 0, circleProgress * Math.PI * 2);
+        ctx.stroke();
+        if (circleProgress < 1) {
+            circleProgress += 0.02;
+            requestAnimationFrame(drawCircle2);
+        } else {
+            drawDashedLine(centerX1, centerY1, centerX2, centerY2, labelPoints);
+        }
+    }
+
+    function drawDashedLine(x1, y1, x2, y2, callback) {
+        let dashProgress = 0;
+        ctx.setLineDash([]);
+        function draw() {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x1 + dashProgress * (x2 - x1), y1 + dashProgress * (y2 - y1));
+            ctx.stroke();
+            dashProgress += 0.02;
+            if (dashProgress <= 1) {
+                requestAnimationFrame(draw);
+            } else {
+                ctx.setLineDash([]);
+                if (callback) callback();
+            }
+        }
+        draw();
+    }
+
+    function labelPoints() {
+        ctx.fillStyle = '#ff8000';
+        ctx.font = '20px Estedad';
+        ctx.fillText('O', centerX1 - 10, centerY1 + 25);
+        ctx.fillText("O'", centerX2 - 10, centerY2 + 25);
+        ctx.fillText("T", centerX1 + radius1, centerY1 - radius1 + 35);
+        ctx.fillText("T'", centerX2 + radius2 - 95, centerY2 + radius2 - 20);
+        ctx.fillText("A", centerX2 + radius2 - 137, centerY2 - radius2 - 37);
+
+        ctx.beginPath();
+        ctx.arc(centerX1, centerY1, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(centerX2, centerY2, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        animateCommonTangents();
+    }
+
+function animateCommonTangents() {
+    const tangents = [
+        { x1: centerX1 + radius1 - 20, y1: centerY1 - radius1 +25, x2: centerX2 + radius2 - 85, y2: centerY2 + radius2 - 10, color: '#ff8000', dashed: false },
+        { x1: centerX1, y1: centerY1, x2: centerX1 + radius1 + 20, y2: centerY1 - radius1 - 5, color: '#fff', dashed: false },
+        { x1: centerX2, y1: centerY2, x2: centerX2 + radius2 - 137, y2: centerY2 - radius2 - 37, color: '#ff8000', dashed: true },
+        { x1: centerX2, y1: centerY2, x2: centerX2 - 40 , y2: centerY1 +38, color: '#fff', dashed: false },
+    ];
+
+    let tangentIndex = 0;
+
+    function drawTangent() {
+        if (tangentIndex >= tangents.length) {
+            const proof = document.getElementById('proof2');
+            const text = 'O′T′ ⊥ TT′ , AT ⊥ TT′ ⇒ AT ‖ O′T′ و O′A′ ‖ TT′<br>⇒ TT′O′A متوازی الاضلاع , T = T′ = 90<br>⇒ TT′O′A مستطیل ⇒ O′T′ = r′ = AT و O′A = TT′<br>ΔOAO′: OO′² = OA² + AO′² ⇒ d² = (r-r′)² + TT′²<br>⇒ TT′ = √d²-(r+r′)² ';
+            typeText(proof, text, 50);
+            return;
+        }
+
+        const { x1, y1, x2, y2, color, dashed } = tangents[tangentIndex];
+        let progress = 0;
+
+        function animateLine() {
+            ctx.strokeStyle = color;
+            ctx.setLineDash(dashed ? [5, 5] : []);
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x1 + progress * (x2 - x1), y1 + progress * (y2 - y1));
+            ctx.stroke();
+
+            progress += 0.02;
+            if (progress <= 1) {
+                requestAnimationFrame(animateLine);
+            } else {
+                tangentIndex++;
+                drawTangent();
+            }
+        }
+
+        animateLine();
+    }
+
+    drawTangent();
+}
 
     drawCircle1();
 }
