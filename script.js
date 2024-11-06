@@ -2555,7 +2555,7 @@ function drawLengthofthecommoninternaltangent() {
         ctx.font = '20px Estedad';
         ctx.fillText('O', centerX1 - 10, centerY1 + 25);
         ctx.fillText("O'", centerX2 - 10, centerY2 + 25);
-        ctx.fillText("T", centerX1 + radius1, centerY1 - radius1 + 35);
+        ctx.fillText("T", centerX1 + radius1 - 40, centerY1 - radius1 + 35);
         ctx.fillText("T'", centerX2 + radius2 - 95, centerY2 + radius2 - 20);
         ctx.fillText("A", centerX2 + radius2 - 137, centerY2 - radius2 - 37);
 
