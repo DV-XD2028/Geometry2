@@ -13,7 +13,7 @@
             <div class="title-container">
                 <h2>فصل اول</h2>
             </div>
-            <button class="lesson-btn" onclick="showIncompleteAlert()">درس سوم</button>
+            <button class="lesson-btn" onclick="showMenu(3)">درس سوم</button>
             <button class="lesson-btn" onclick="showMenu(2)">درس دوم</button>
             <button class="lesson-btn" onclick="showMenu(1)">درس اول</button>
         </div>
@@ -46,6 +46,20 @@
             <button class="back-btn" onclick="showMainMenu()">بازگشت به منو اصلی</button>
         </div>
 
+        <div id="menu-3" class="menu submenu" style="display: none;">
+            <button class="lesson-btn" onclick="showIncompleteAlert()">محاطی بودن چندضلعی</button>
+            <button class="lesson-btn" onclick="showIncompleteAlert()">محیطی بودن چندضلعی</button>
+            <button class="lesson-btn" onclick="showIncompleteAlert()">مثلث محاطی و محیطی</button>
+            <button class="lesson-btn" onclick="showIncompleteAlert()">چهارضلعی‌های محاطی</button>
+            <button class="lesson-btn" onclick="showIncompleteAlert()">چهارضلعی‌های محیطی</button>
+            <button class="lesson-btn" onclick="showIncompleteAlert()">چندضلعی منتظم</button>
+            <button class="lesson-btn" onclick="showIncompleteAlert()">ذوزنقه محاطی و محیطی</button>
+            <button class="lesson-btn" onclick="showIncompleteAlert()">دایره‌های محاطی خارجی</button>
+            <button class="lesson-btn" onclick="showIncompleteAlert()">هشت ضلعی منتظم مربع</button>
+            <button class="lesson-btn" onclick="showIncompleteAlert()">شش ضلعی و مثلث</button>
+            <button class="back-btn" onclick="showMainMenu()">بازگشت به منو اصلی</button>
+        </div>
+
         <div id="proof-section" class="menu" style="display: none;">
             <canvas id="canvas" width="400" height="400"></canvas>
             <p id="proof" class="proof-text"></p>
@@ -56,6 +70,12 @@
             <canvas id="canvas2" width="400" height="400"></canvas>
             <p id="proof2" class="proof-text"></p>
             <button id="back-to-lesson2-btn" class="back-btn" onclick="goBackToMenu2()">بازگشت به درس دوم</button>
+        </div>
+
+        <div id="proof-section3" class="menu" style="display: none;">
+            <canvas id="canvas3" width="400" height="400"></canvas>
+            <p id="proof3" class="proof-text"></p>
+            <button id="back-to-lesson3-btn" class="back-btn" onclick="goBackToMenu3()">بازگشت به درس سوم</button>
         </div>
 
 
