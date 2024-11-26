@@ -2616,3 +2616,9 @@ function animateCommonTangents() {
 
     drawCircle1();
 }
+
+function goBackToMenu3() {
+    document.getElementById('proof-section3').style.display = 'none';
+    document.getElementById('menu-3').style.display = 'flex';
+}
+

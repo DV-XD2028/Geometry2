@@ -116,12 +116,14 @@ footer a:hover {
     background-color: #444;
 }
 
+#menu-3 > .lesson-btn,
 #menu-1 > .lesson-btn,
 #menu-2 > .lesson-btn {
     width: 300px;
     height: 60px;
     text-align: center;
 }
+
 
 #proof-section {
     display: flex;
